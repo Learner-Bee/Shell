@@ -98,23 +98,26 @@ str=“this is a string”
 查找字符“i或s”到位置  
 str=“this is a string”  
 echo `expr index “¥str” is` //返回字符串is第一个字符i出现的位置：3  
-###Shell数组  
+### Shell数组  
 bash支持一维数组（不支持多维数组），并且没有限定数组的大小  
-数组元素下标由0开始编号。  
+数组元素下标由0开始编号。 
+ 
 ####定义数组
 Shell中数组用括号来表示，数组元素用空格分隔开  
-数组名=（值1 值2 值3）  
-####读取数组
-${数组名[下标]}  
+数组名=（值1 值2 值3） 
+ 
+#### 读取数组
+¥{数组名[下标]}  
 例：valuen=${array[n]}  
 使用@可以获取数组中的所有元素  
-echo ${array[@]}
+echo ¥{array[@]}
 ####获取数组长度
 方法同字符串  
 
 * 获取数组元素个数：length=${#array[@]} 
 * length=${#array[*]}
 * 获取数组元素中单个元素长度：length=${#array[n]}
+
 ###Shell注释
 以#开头的行就是注释 
 sh里没有多行注释。只能一行一行加#  
@@ -227,3 +230,36 @@ fi
 * -lt 检测左边是否小于右边，是，返回true
 * -ge 检测左边是否大于等于右边，是，返回true
 * -le 检测左边是否小于等于右边
+
+###布尔运算符
+假设a=10 b=20
+
+* ！ 非运算
+* -o 或运算 例：[ $a -lt 20 -o ¥b -gt 100 ]返回true
+* -a 与运算 例：[ $a -lt 20 -a ¥b -gt 100 ]返回false  
+
+###逻辑运算符
+* && 逻辑的AND [[ $a -lt 100 && $b -gt 100 ]]false
+* || 逻辑的OR  [[ $a -lt 100 || $b -gt 100 ]]true
+
+###字符串运算符
+设a为“abc”，b为“efg”  
+
+* = 检测两个字符串是否相等，先等返回true。[ $a = $b ]返回false  
+* != 
+* -z 检测字符串长度是否为0，为0返回true。[ -z $a ]返回false
+* -n 与上相反。不为0返回true
+* str 检测字符串是否为空，不为空返回true。[ $a ]true
+
+###文件测试运算符
+文件测试运算符用于检测Unix文件到属性
+
+* -b file 检测文件是否时块设备文件（block）。如果是，返回true
+* -c file 是字符设备文件，true
+* -d file 是目录，true
+* -f file 普通文件（既不是目录，也不是设备文件），true
+* -r file 文件可读，true
+* -w file 文件可写，true
+* -x file 文件可执行，true
+* -s file 文件是否为空，不为空true
+* -e file 文件（目录）是否存在，存在，true
