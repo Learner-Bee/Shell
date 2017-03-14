@@ -171,3 +171,59 @@ echo ${array_name[@]}
 ###获取数组的长度  
 ${#array_name[*]}  
 ${#array_name[@]}
+##Shell基本运算符
+原生Bash不支持简单的算术运算，但是可以通过其他命令来实现。如：awk、expr（最常用）。  
+expr是一款表达式计算工具，使用它可完成表达式的求值操作  
+例：求和  
+val=`expr 2 + 2`  
+echo "两数之和：$val"  
+
+* 表达式和运算符之间要有空格，例如2+2是不对的，应该是2 + 2 
+* 完整的表达式要用``包含。这个字符不是单引号，是反引号 
+###算术运算符
+设a为10，b为20
+
+* + 加法  `expr $a + $b`  30 
+* - 减法  `expr $a - $b` -10
+* * 乘法  `expr $a \* $b` 200
+* / 除法  `expr $b / $a` 2
+* % 取余  `expr $b % $a` 0
+* = 赋值  a=$b 把变量b的值赋给a
+* == 比较相等 [ $a == $b ] 返回false
+* ！=比较不等 [ $a != $b] 返回true
+
+注：条件表达式要放在[]中，并且要有空格。如[$a==$b]不对，应该为[ $a == $b ]  
+例：a=10 b=20 (两个变量间不能用逗号)  
+val=`expr $a + $b`
+echo "a+b: $val"
+
+val=`expr $a - $b`
+echo "a-b:$val"
+
+val=`expr $a \* $b`
+echo "a*b:$val"
+
+val=`expr $b / $a`
+echo "a/b:$val"
+
+val=`expr $b % $a`
+ehco "$val"
+
+if [ $a == $b ]  
+then  
+  echo "a equal  b"  
+fi  
+
+if [ $a != $b ]  
+then  
+  echo "a not equal b"  
+fi  
+###关系运算符  
+关系运算符只支持数字，不支持字符串，除非字符串的值是数字 
+
+* -eq 检测两个数是否相等，相等返回true  [ $a -eq $b] 返回false
+* -ne 检测两个数是否相等，不相等返回true [ $a -ne $b ]返回true
+* -gt（greater than）检测左边是否比右边大，是，返回true 
+* -lt 检测左边是否小于右边，是，返回true
+* -ge 检测左边是否大于等于右边，是，返回true
+* -le 检测左边是否小于等于右边
