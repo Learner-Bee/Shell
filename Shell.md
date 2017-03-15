@@ -263,3 +263,135 @@ fi
 * -x file 文件可执行，true
 * -s file 文件是否为空，不为空true
 * -e file 文件（目录）是否存在，存在，true
+##Shell echo命令
+###显示普通字符串
+echo "It is a test"  
+双引号可省略：echo It is a test  
+###显示转移字符 
+echo "\"It is a test\"" 或echo \"It is a test\"  
+结果："It is a test"
+###显示变量
+read从标准输入中读取一行，并把输入行的每个字段的值指定给shell变量  
+read name  
+echo myname is $name  
+运行：  
+lily #输入
+myname is lily #输出  
+###显示换行
+echo -e "test \n"  # -e 开启转义    
+###显示不换行
+echo -e "test \c"  #-e 开启/c不换行 
+###显示结果定向至文件 
+echo "test" >test.sh  
+输出结果到test.sh文件中  
+###原样输出字符串，不进行转译或取变量（用单引号）
+echo '$name \"'  #输出 $name \" 
+###显示命令执行时间
+echo `date` #反引号，不是单引号  
+##Shell printf命令
+语法：printf format-string [arguments...]  
+printf不会像echo一样输出时自动换行。需手动添加\n  
+
+* format-string：为格式控制字符串
+* arguments:为参数列表
+
+例：
+printf "%-10s %-8s %-4s \n" 姓名 性别 体重  
+printf "%-10s %-8s %-4.2f\n"郭靖 男 55.5555  
+
+* %s %c %d %f都是格式替代符
+* %-10s 指一个宽度为10个字符（-表示左对齐，没有表示右对齐）。任何字符都会被显示在10个字符宽度内。不足，已空格填充，超过也会将内容全部显示出来
+* %-4.2f 指格式化为小数。其中.2指保留2位小数  
+###printf的转义序列 
+
+* \a 警告字符。通常为ASCLL的BEL字符 
+* \b 后退（back off）
+* \f 换页（formfeed）
+* \n 换行
+* \r
+##Shell test命令
+shell中的test命令用与检查某个条件是否成立。可以进行数值、字符、文件三方面测试
+###数值测试
+* -eq
+* -ne
+* -gt
+* -ge
+* -lt
+* -le
+
+例：  
+a=10 b=20  
+if test $a -eq $-b  
+then    
+ echo "a=b"
+else  
+ echo "a!=b"  
+###字符串测试
+* =
+* ！=
+* -z 字符串 字符串长度为0则true
+* -n 字符串 字符串长度不为0则true
+###文件测试
+同文件运算符命令  
+例：  
+if test -e test.sh  
+then  
+ echo "file existence"
+else  
+ echo "file doesnot existence"  
+fi
+
+*  -a (与) -o(或) ！（非）将测试条件连接起来。其优先级 ！ > -a > -o 
+ 
+例：  
+if test -e test.sh -o -e test.sh  
+then  
+ echo "file existence"
+else  
+ echo "file doesnot existence"  
+fi
+##Shell 流程控制
+shell的流程控制不可为空  
+###if else
+* if else语法：  
+ if condition   
+ then 
+  command  
+ else  
+  command   
+ fi  #fi是if倒过来写的。
+* if else-if else   
+ if condition1  
+ then  
+command1  
+elif condition2  
+then   
+command2  
+else  
+command3
+fi   
+###for
+语法：
+ 
+for  var i in item1 item2...  
+do  
+command  
+done  
+例 1： 顺序输出当前列表中的数字  
+for loop in 1 2 3   
+do  
+echo "the value : $loop"  
+done
+结果：  
+the value :1  
+the value :2  
+the value :3  
+ 例2：顺序输出字符串的字符  
+for str in 'this is a string'  
+do   
+echo $str  
+done  
+结果：  
+this is a string
+###while
+
