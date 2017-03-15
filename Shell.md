@@ -182,7 +182,8 @@ val=`expr 2 + 2`
 echo "两数之和：$val"  
 
 * 表达式和运算符之间要有空格，例如2+2是不对的，应该是2 + 2 
-* 完整的表达式要用``包含。这个字符不是单引号，是反引号 
+* 完整的表达式要用``包含。这个字符不是单引号，是反引号
+
 ###算术运算符
 设a为10，b为20
 
@@ -263,6 +264,7 @@ fi
 * -x file 文件可执行，true
 * -s file 文件是否为空，不为空true
 * -e file 文件（目录）是否存在，存在，true
+
 ##Shell echo命令
 ###显示普通字符串
 echo "It is a test"  
@@ -302,6 +304,7 @@ printf "%-10s %-8s %-4.2f\n"郭靖 男 55.5555
 * %s %c %d %f都是格式替代符
 * %-10s 指一个宽度为10个字符（-表示左对齐，没有表示右对齐）。任何字符都会被显示在10个字符宽度内。不足，已空格填充，超过也会将内容全部显示出来
 * %-4.2f 指格式化为小数。其中.2指保留2位小数  
+
 ###printf的转义序列 
 
 * \a 警告字符。通常为ASCLL的BEL字符 
@@ -331,6 +334,7 @@ else
 * ！=
 * -z 字符串 字符串长度为0则true
 * -n 字符串 字符串长度不为0则true
+
 ###文件测试
 同文件运算符命令  
 例：  
@@ -359,7 +363,7 @@ shell的流程控制不可为空
   command  
  else  
   command   
- fi  #fi是if倒过来写的。
+ fi   #fi是if倒过来写的。
 * if else-if else   
  if condition1  
  then  
@@ -368,8 +372,9 @@ elif condition2
 then   
 command2  
 else  
-command3
+command3  
 fi   
+
 ###for
 语法：
  
@@ -381,7 +386,7 @@ done
 for loop in 1 2 3   
 do  
 echo "the value : $loop"  
-done
+done  
 结果：  
 the value :1  
 the value :2  
@@ -394,4 +399,67 @@ done
 结果：  
 this is a string
 ###while
+while循环用于不断执行一系列命令，也用于从输入文件中读取数据；命令通常为测试条件。  
+语法：  
+while condition   
+do 
+ command  
+done  
+
+* 用于不断执行一系列命令
+例：  
+a=1  
+whlie (($a<=3))  
+do   
+echo $a
+let "a++"  
+done  
+结果：  
+1  
+2  
+3  
+* 用于读取键盘信息  
+while read film   
+do   
+echo "$file is a nice film"   
+done
+
+###无限循环
+语法：  
+while ：  
+do 
+ command  
+ done  
+或者  
+whlie true   
+do  
+command  
+done  
+或者  
+for（（ ； ；））  
+###until循环
+执行一系列命令直至条件为真时停止  
+语法：  
+until condition 
+do  
+command  
+done   
+先执行循环，再判断条件，所以循环至少执行1次  
+###case
+case语句为多选择语句。可以用case语句匹配一个值与一个模式。如果匹配成功，执行匹配的命令 ,不再匹配其他模式
+语法：   
+ case 值 in  
+ 模式1）  
+  command1  
+  command2  
+  ...  
+  ;;  
+ 模式2）  
+ command1  
+ command2   
+ ...  
+ ;;  
+esac
+ 
+
 
