@@ -459,7 +459,102 @@ case语句为多选择语句。可以用case语句匹配一个值与一个模式
  command2   
  ...  
  ;;  
-esac
+esac   
+例：  
+echo " enter 1-4:"  
+read num  
+case $num in  
+1) echo "you enter 1"  
+ ;;   
+2) echo "you enter 2"  
+;;  
+3) echo "you enter 3"  
+;;  
+4) echo "you enter 4"    
+;;   
+esac  
+###跳出循环
+###break命令
+break命令允许跳出所有循环（终止执行后面的所有循环）
+例：  
+while :  
+do   
+ echo "enter 1-5:"  
+read num  
+case $num in   
+1|2|3|4|5) echo "you enter $num"  
+;;  
+*) echo "not in 1-5"  
+break   
+;;  
+esac  
+done  #输入1-5会无限循环下去。当输入不是1-5时，跳出整个循环，结束循环  
+###continue  
+不会跳出所有循环，只会跳出当前循环  
+上面例子  
+*） echo "not in 1-5"  
+continue   
+echo "game over"  #当输入不是1-5时，跳出当前循环，继续执行上面的循环。所以不会执行game over 命令  
+###esac  
+esac 为case反过来写的。作为结束标记	
+##Shell函数  
+shell中函数定义格式：  
+[function] funname [()]   
+{  action ;  
+  [return int];  
+}
+
+* 可以带function fun()定义，也可以fun()定义，不带任何参数 
+* 参数返回，可以加return 返回，如果不加，将以最后一条命令运行结果，作为返回值。  
+**例**：定义一个函数，并执行调用  
+demoFun（）{  
+echo "2"  
+}    
+echo "1"  
+demoFun  
+echo "3"  
+执行结果：  
+1  
+2  
+3  
+**例**：执行一个带有返回值的函数  
+fun（）{  
+echo "输入第一个数"  
+read num1 
+echo "输入第二个数"  
+read num2  
+return $(($num1+$num2))  #此处必须是两个括号
+}  
+fun  
+echo "输入的两个数之和为：$?"  
+函数返回值在调用该函数后通过$?来获得  
+###函数参数
+调用函数时，可以向其传递参数。在函数内部通过$n形式获取参数值。例如，$1表示第一个参数。当n>=10时，应该用${10}来获取  
+**例**  
+fun3(){  
+echo "first:$1"  
+echo "second:$2"  
+echo "ten:${10}"   #获取第十个参数  
+echo "totle:$#"    #获取所有参数个数  
+echo "string:$*"   # 输出所有参数	  
+}
+fun3 2 3 5 4 3 2 33 44 55 66 77
+
+* $# 传递到脚本的参数个数  
+* $* 已一个单字符串显示所有向脚本传递的参数
+* $$ 脚本运行当前的进程ID  
+##Shell输入输出重定向
+重定向命令列表：  
+
+* command >file 将输出重定向到file
+* command <file 将输入重定向到
+* command >>file 将输出以追加的方式重定向到file
+* n >file 将文件描述符为n的文件重定向到file
+* n >>file 将文件描述符为n的文件以追加的方式重定向到file
+* n > $m 将输出文件m和n合并
+* n < $m 将输入文件m和n合并
+* << tag 将开始标记tag和结束标记tag之间的内容作为输入
+**文件描述符0通常是标准输入，1是标准输出，2是标准错误输出**
  
 
 
