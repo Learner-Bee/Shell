@@ -569,8 +569,57 @@ command < file
 需要从键盘获取输入的命令，会转移到文件中读取内容  
 command < infile >outfile  
 执行命令从infile文件中读取内容，将结果输出到outfile中  
+###重定向深入讲解  
+一般情况，每个Unix/Linux命令运行时都会打开三个文件    
 
+* 标准输入文件（stdin）：stdin的文件描述为0，Unix程序默认从stdin读取数据
+* 标准输出文件（stdout）：文件描述为1，默认向stdout输出数据
+* 标准错误文件（stderr）:文件描述为2，Unix程序会向stderr流中写入错误信息
+默认情况下，command >file 将stdout重定向到file，command <file 将stdin重定向到file  
+如果希望stderr重定向到file,可以这样写：  
+command 2 >file  
+错误追加到文件末尾  
+command 2 >>file   
+**2表示标准错误文件（stderr）**  
+如果希望将stdout和stderr合并重定向到file：  
+command >file 2>$1	
+###Here Document
+Here Document 是一种特殊的Shell重定向方式。用来将**输入重定向**到一个交互式Shell脚本或程序  
+基本形<<式如下：  
+command  << delimiter  
+document  
+delimiter  
+作用是将两个delimiter（分隔符）之间的内容（document）作为输入传递给command   
 
- 
+* 结尾的delimiter一定要顶格写，前面不能有任何字符，后面也不能有任何字符。包括空格和tab缩进  
+* 开始的delimiter前后空格会被忽略掉
 
+**例**： 在命令行中通过wc -l 命令计算Here Document 行数：  
+wc -l << EOF  
+输入内容  
+EOF   #回车，执行结果为1行  
+**例**:可以将Here Document用在脚本中 ：  
+cat << EOF  
+输入的内容  
+EOF  #执行脚本，查看运行结果   
+###/dev/null文件
+如果想执行执行某个命令，但是不希望在屏幕上显示输出结果，那么可以将输出重定向到/dev/null  
+command > /dev/null  
+/dev/null是一个特殊的文件，写入到它的内容都会被丢弃；如果想从该文件读取内容，是什么也读不到的。 但是/dev/null非常有用，将命令的输出重定向到它，会起到“禁止输出”的效果  
+如果希望屏蔽掉stdout和stderr  
+cmmand > /dev/null 2>$1  
+##Shell文件包含
+Shell也可以包含外部脚本，这样很方便的封装一些公用的代码作为一个独立的文件  
+Shell文件包含的语法格式：  
+. filename  **注意文件名前的点号和文件中间有个空格**  
+或  
+source filename  
+**例**
+在文件test1中编写代码：  
+name="lily"  
+在文件test2中调用test1中代码：  
+. test.sh  # 或source test.sh  
+echo "test1-name:$name"  
+**注：被包含的文件不需要有可执行权限**
 
+   
